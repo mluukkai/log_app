@@ -15,7 +15,7 @@ spec:
     spec:  
       containers:
       - name: pingpong
-        image: mluukkai/pingpong:6
+        image: PONGER_IMAGE
         env:
         - name: DB_URL
           value: "postgres://postgres:postgres@psql-svc:5432/postgres"

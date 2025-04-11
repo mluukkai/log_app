@@ -26,7 +26,7 @@ spec:
 
       containers:
       - name: log-output-reader
-        image: mluukkai/log_output_reader:9
+        image: READER_IMAGE
         volumeMounts:
           - name: ponglog-share
             mountPath: /app/data
@@ -47,7 +47,7 @@ spec:
               port: 3000
 
       - name: log-output-writer
-        image: mluukkai/log_output_writer:3
+        image: WRITER_IMAGE
         volumeMounts:
           - name: ponglog-share
             mountPath: /app/data
