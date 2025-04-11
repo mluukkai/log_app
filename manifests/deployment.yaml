@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: exercises
+  name: log-output-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: log-output
+  template:
+    metadata:
+      labels:
+        app: log-output
+    spec:
+      volumes: 
+        - name: ponglog-share
+          persistentVolumeClaim:
+            claimName: pinglog-claim 
+        - name: config
+          configMap:
+            name: log-ping-conf
+            items:
+            - key: "file"
+              path: "file"
+
+      containers:
+      - name: log-output-reader
+        image: mluukkai/log_output_reader:9
+        volumeMounts:
+          - name: ponglog-share
+            mountPath: /app/data
+          - name: config
+            mountPath: "/app/config"
+            readOnly: true
+        env:
+          - name: MESSAGE
+            valueFrom:
+              configMapKeyRef:
+                name: log-ping-conf
+                key: MESSAGE
+        readinessProbe:
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          httpGet:
+              path: /healthz
+              port: 3000
+
+      - name: log-output-writer
+        image: mluukkai/log_output_writer:3
+        volumeMounts:
+          - name: ponglog-share
+            mountPath: /app/data
+

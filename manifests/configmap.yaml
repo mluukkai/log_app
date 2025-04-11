@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: log-ping-conf
+  namespace: exercises
+data:
+  MESSAGE: "hello world"
+  file: |
+    content form a
+    two line file    

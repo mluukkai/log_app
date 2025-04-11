@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: pingpong-dep
+  namespace: exercises
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: pingpong
+  strategy:
+    canary:
+      steps:
+      - setWeight: 50
+      - pause:
+          duration: 30s
+      - analysis:
+          templates:
+          - templateName: cpu-usage
+  template:
+    metadata:
+      labels:
+        app: pingpong
+    spec:
+      containers:
+      - name: pingpong
+        image: mluukkai/pingpong:6
+        env:
+        - name: DB_URL
+          value: "postgres://postgres:postgres@psql-svc:5432/postgres"
+        readinessProbe:
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          httpGet:
+              path: /healthz
+              port: 3000
+      - name: looper
+        image: ubuntu:latest
+        command: ["/bin/bash", "-c", "while true; do echo 'lol'; done;"]

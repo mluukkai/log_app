@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pingpong-dep
+  namespace: exercises
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pingpong
+  template:
+    metadata:
+      labels:
+        app: pingpong
+    spec:  
+      containers:
+      - name: pingpong
+        image: mluukkai/pingpong:6
+        env:
+        - name: DB_URL
+          value: "postgres://postgres:postgres@psql-svc:5432/postgres"
+        readinessProbe:
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          httpGet:
+              path: /healthz
+              port: 3000
