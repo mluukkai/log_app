@@ -16,14 +16,17 @@ resources:
 
 images:
 - name: PONGER_IMAGE
-  newName: europe-north1-docker.pkg.dev/dwk-gke-455410/my-repository/project-todo-wikipedia
-  newTag: main-38fa7881d29ebdd4d32bfa303e10273cfc78f52b
+  newName: europe-north1-docker.pkg.dev/dwk-gke-455410/my-repository/ponger
+  newTag: main-158bd5419af28d0e7c96c6ecc39a232109e78ccd
 - name: READER_IMAGE
-  newName: europe-north1-docker.pkg.dev/dwk-gke-455410/my-repository/project-todo-app
-  newTag: main-38fa7881d29ebdd4d32bfa303e10273cfc78f52b
+  newName: europe-north1-docker.pkg.dev/dwk-gke-455410/my-repository/reader
+  newTag: main-158bd5419af28d0e7c96c6ecc39a232109e78ccd
+- name: ROOTTI_IMAGE
+  newName: europe-north1-docker.pkg.dev/dwk-gke-455410/my-repository/rootti
+  newTag: main-158bd5419af28d0e7c96c6ecc39a232109e78ccd
 - name: ROOT_IMAGE
   newName: europe-north1-docker.pkg.dev/dwk-gke-455410/my-repository/project-todo-root
   newTag: main-38fa7881d29ebdd4d32bfa303e10273cfc78f52b
 - name: WRITER_IMAGE
-  newName: europe-north1-docker.pkg.dev/dwk-gke-455410/my-repository/project-todo-backend
-  newTag: main-38fa7881d29ebdd4d32bfa303e10273cfc78f52b
+  newName: europe-north1-docker.pkg.dev/dwk-gke-455410/my-repository/writer
+  newTag: main-158bd5419af28d0e7c96c6ecc39a232109e78ccd
