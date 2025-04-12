@@ -1,22 +1,25 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+
+
 resources:
-  - manifests/configmap.yaml
-  - manifests/route.yaml
-  - manifests/deployment.yaml
-  - manifests/gateway.yaml
-  - manifests/pvc.yaml
-  - manifests/service.yaml
-
-  - db/statefulset.yaml
-
-  - pong/manifests/service.yaml
-  - pong/manifests/deployment.yaml
+- manifests/configmap.yaml
+- manifests/route.yaml
+- manifests/deployment.yaml
+- manifests/gateway.yaml
+- manifests/pvc.yaml
+- manifests/service.yaml
+- db/statefulset.yaml
+- pong/manifests/service.yaml
+- pong/manifests/deployment.yaml
 
 images:
-  - name: READER_IMAGE
-    newName: mluukkai/log_output_reader:9
-  - name: WRITER_IMAGE
-    newName: mluukkai/log_output_writer:3
-  - name: PONGER_IMAGE
-    newName: mluukkai/pingpong:6
+- name: PONGER_IMAGE
+  newName: europe-north1-docker.pkg.dev/dwk-gke-455410/my-repository/project-todo-wikipedia
+  newTag: main-2652acefc6ed0369871e2313e414cb86c972e188
+- name: READER_IMAGE
+  newName: europe-north1-docker.pkg.dev/dwk-gke-455410/my-repository/project-todo-app
+  newTag: main-2652acefc6ed0369871e2313e414cb86c972e188
+- name: WRITER_IMAGE
+  newName: europe-north1-docker.pkg.dev/dwk-gke-455410/my-repository/project-todo-backend
+  newTag: main-2652acefc6ed0369871e2313e414cb86c972e188
