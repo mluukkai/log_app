@@ -75,9 +75,9 @@ jobs:
       
       - name: Deploy
         run: |-
-          kustomize edit set image PONGER=PONGER_IMAGE_TAG
-          kustomize edit set image READER=$READER_IMAGE_TAG
-          kustomize edit set image WRITER=$WRITER_IMAGE_TAG
+          kustomize edit set image PONGER_IMAGE=$PONGER_IMAGE_TAG
+          kustomize edit set image READER_IMAGE=$READER_IMAGE_TAG
+          kustomize edit set image WRITER_IMAGE=$WRITER_IMAGE_TAG
 
           kustomize build . | kubectl apply -f -
           kubectl get services -n $NAMESPACE -o wide
