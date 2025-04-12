@@ -16,10 +16,10 @@ resources:
 images:
 - name: PONGER_IMAGE
   newName: europe-north1-docker.pkg.dev/dwk-gke-455410/my-repository/project-todo-wikipedia
-  newTag: main-2652acefc6ed0369871e2313e414cb86c972e188
+  newTag: main-31164dd60d2b75b2f8cf1de57619b3a162169816
 - name: READER_IMAGE
   newName: europe-north1-docker.pkg.dev/dwk-gke-455410/my-repository/project-todo-app
-  newTag: main-2652acefc6ed0369871e2313e414cb86c972e188
+  newTag: main-31164dd60d2b75b2f8cf1de57619b3a162169816
 - name: WRITER_IMAGE
   newName: europe-north1-docker.pkg.dev/dwk-gke-455410/my-repository/project-todo-backend
-  newTag: main-2652acefc6ed0369871e2313e414cb86c972e188
+  newTag: main-31164dd60d2b75b2f8cf1de57619b3a162169816
