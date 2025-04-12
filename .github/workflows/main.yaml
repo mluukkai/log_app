@@ -13,7 +13,6 @@ env:
   WRITER:       project-todo-backend
   PONGER:       project-todo-wikipedia
   BRANCH:       ${{ github.ref_name }}
-  NAMESPACE:    ${{ github.ref_name == 'main' && 'exercise' || github.ref_name }}
 
 jobs:
   build-publish-deploy:
@@ -78,18 +77,3 @@ jobs:
         with:
           add: 'kustomization.yaml'
           message: New version released ${{ github.sha }}
-
-      # - name: Set namespace 
-      #   run: |
-      #     kubectl create namespace $NAMESPACE || echo "Namespace $NAMESPACE already exists"
-      #     kubectl config set-context --current --namespace=$NAMESPACE
-      #     kustomize edit set namespace $NAMESPACE
-      
-      # - name: Deploy
-      #   run: |-
-      #     kustomize edit set image PONGER_IMAGE=$PONGER_IMAGE_TAG
-      #     kustomize edit set image READER_IMAGE=$READER_IMAGE_TAG
-      #     kustomize edit set image WRITER_IMAGE=$WRITER_IMAGE_TAG
-
-      #     kustomize build . | kubectl apply -f -
-      #     kubectl get services -n $NAMESPACE -o wide

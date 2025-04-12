@@ -22,11 +22,13 @@ app.get('/healthz', (req, res) => {
     });
 });
 
+/*
 app.get('/', (req, res) => {
   res.send('pongroot');
 });
+*/
 
-app.get('/pingpong', async (req, res) => {
+app.get('/', async (req, res) => {
   await pool.query('UPDATE pingpong SET count = count + 1');
 
   const dbCountResult = await pool.query('SELECT count FROM pingpong');
