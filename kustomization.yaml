@@ -2,6 +2,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 
+
+
+
 resources:
 - manifests/configmap.yaml
 - manifests/route.yaml
@@ -9,12 +12,9 @@ resources:
 - manifests/gateway.yaml
 - manifests/pvc.yaml
 - manifests/service.yaml
-
 - db/statefulset.yaml
-
 - pong/manifests/service.yaml
 - pong/manifests/deployment.yaml
-
 - root/manifests/service.yaml
 - root/manifests/deployment.yaml
 
@@ -22,13 +22,13 @@ resources:
 images:
 - name: PONGER_IMAGE
   newName: europe-north1-docker.pkg.dev/dwk-gke-455410/my-repository/project-todo-wikipedia
-  newTag: main-9a7fd9cb35c67b0c97e27216340269d461daf617
+  newTag: main-38fa7881d29ebdd4d32bfa303e10273cfc78f52b
 - name: READER_IMAGE
   newName: europe-north1-docker.pkg.dev/dwk-gke-455410/my-repository/project-todo-app
-  newTag: main-9a7fd9cb35c67b0c97e27216340269d461daf617
+  newTag: main-38fa7881d29ebdd4d32bfa303e10273cfc78f52b
 - name: ROOT_IMAGE
   newName: europe-north1-docker.pkg.dev/dwk-gke-455410/my-repository/project-todo-root
-  newTag: main-9a7fd9cb35c67b0c97e27216340269d461daf617
+  newTag: main-38fa7881d29ebdd4d32bfa303e10273cfc78f52b
 - name: WRITER_IMAGE
   newName: europe-north1-docker.pkg.dev/dwk-gke-455410/my-repository/project-todo-backend
-  newTag: main-9a7fd9cb35c67b0c97e27216340269d461daf617
+  newTag: main-38fa7881d29ebdd4d32bfa303e10273cfc78f52b
