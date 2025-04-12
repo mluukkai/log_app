@@ -7,9 +7,9 @@ resources:
   - manifests/pvc.yaml
   - manifests/service.yaml
 
-  - db/service.yaml
+  - db/statefulset.yaml
 
-  - pong/manifest/service.yaml
+  - pong/manifests/service.yaml
   - pong/manifests/deployment.yaml
 
 images:
