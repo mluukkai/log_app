@@ -1,0 +1,94 @@
+name: Release application
+
+on:
+  push:
+
+env:
+  PROJECT_ID:   ${{ secrets.GKE_PROJECT }}
+  GKE_CLUSTER:  dwk-cluster
+  GKE_ZONE:     europe-north1-b
+  REGISTRY:     europe-north1-docker.pkg.dev
+  REPOSITORY:   my-repository
+  READER:       project-todo-app
+  WRITER:       project-todo-backend
+  PONGER:       project-todo-wikipedia
+  BRANCH:       ${{ github.ref_name }}
+  NAMESPACE:    ${{ github.ref_name == 'main' && 'exercise' || github.ref_name }}
+
+jobs:
+  build-publish-deploy:
+    name: Build, Publish and Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: '${{ secrets.GKE_SA_KEY }}'
+
+      - name: 'Set up Cloud SDK'
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: 'Use gcloud CLI'
+        run: gcloud info
+
+      - name: 'Get GKE credentials'
+        uses: 'google-github-actions/get-gke-credentials@v2'
+        with:
+          cluster_name: '${{ env.GKE_CLUSTER }}'
+          project_id: '${{ env.PROJECT_ID }}'
+          location: '${{ env.GKE_ZONE }}'
+
+      - name: 'Set up Docker Buildx'
+        run: gcloud auth configure-docker "$REGISTRY"
+          
+      - name : 'Tag names'
+        run: |
+          echo "READED_IMAGE_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/$READED:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
+          echo "WRITER_IMAGE_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/$WRITER:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
+          echo "POMGER_IMAGE_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/$PONGER:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
+
+      - name : 'Build and push reader'
+        run: |
+          docker build --tag $READED_IMAGE_TAG readed
+          docker push $READED_IMAGE_TAG
+      
+      - name : 'Build and push todo-backend'
+        run: |
+          docker build --tag $WRITER_IMAGE_TAG todo-backend
+          docker push $WRITER_IMAGE_TAG
+
+      - name : 'Build and push todo-wikipedia'
+        run: |
+          docker build --tag $POMGER_IMAGE_TAG wikipedia
+          docker push $POMGER_IMAGE_TAG
+
+      - name : 'Build and push todo-backup'
+        run: |
+          docker build --tag $BACKUP_IMAGE_TAG backup
+          docker push $BACKUP_IMAGE_TAG
+
+      - name : 'Build and push todo-backup'
+        run: |
+          docker build --tag $BROADCASTER_IMAGE_TAG todo-broadcaster
+          docker push $BROADCASTER_IMAGE_TAG
+
+      - name: Set up Kustomize
+        uses: imranismail/setup-kustomize@v2.1.0
+
+      - name: Set namespace 
+        run: |
+          kubectl create namespace $NAMESPACE || echo "Namespace $NAMESPACE already exists"
+          kubectl config set-context --current --namespace=$NAMESPACE
+          kustomize edit set namespace $NAMESPACE
+      
+      - name: Deploy
+        run: |-
+          kustomize edit set image TODO-APP=$APP_IMAGE_TAG
+          kustomize edit set image TODO-BACKEND=$BACKEND_IMAGE_TAG
+          kustomize edit set image WIKIPEDIA=$WIKI_IMAGE_TAG
+          kustomize edit set image BACKUP=$BACKUP_IMAGE_TAG
+          kustomize edit set image TODO-BROADCASTER=$BROADCASTER_IMAGE_TAG
+          kustomize build . | kubectl apply -f -
+          kubectl get services -n $NAMESPACE -o wide
