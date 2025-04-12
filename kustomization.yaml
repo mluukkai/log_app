@@ -9,9 +9,15 @@ resources:
 - manifests/gateway.yaml
 - manifests/pvc.yaml
 - manifests/service.yaml
+
 - db/statefulset.yaml
+
 - pong/manifests/service.yaml
 - pong/manifests/deployment.yaml
+
+- root/manifests/service.yaml
+- root/manifests/deployment.yaml
+
 
 images:
 - name: PONGER_IMAGE
