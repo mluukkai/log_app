@@ -9,10 +9,9 @@ env:
   GKE_ZONE:     europe-north1-b
   REGISTRY:     europe-north1-docker.pkg.dev
   REPOSITORY:   my-repository
-  READER:       project-todo-app
-  WRITER:       project-todo-backend
-  PONGER:       project-todo-wikipedia
-  ROOTTI:       project-todo-root
+  READER:       reader
+  WRITER:       writer
+  PONGER:       ponger
   BRANCH:       ${{ github.ref_name }}
   
 
