@@ -1,10 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-
-
-
-
 resources:
 - manifests/configmap.yaml
 - manifests/route.yaml
@@ -17,7 +13,6 @@ resources:
 - pong/manifests/deployment.yaml
 - root/manifests/service.yaml
 - root/manifests/deployment.yaml
-
 
 images:
 - name: PONGER_IMAGE

@@ -15,4 +15,4 @@ spec:
     spec:  
       containers:
       - name: log-app-root
-        image: ROOT_IMAGE
+        image: ROOTTI_IMAGE

@@ -12,9 +12,9 @@ env:
   READER:       reader
   WRITER:       writer
   PONGER:       ponger
+  ROOTTI:       rootti
   BRANCH:       ${{ github.ref_name }}
   
-
 jobs:
   build-publish-deploy:
     name: Build, Publish and Deploy
@@ -78,7 +78,7 @@ jobs:
           kustomize edit set image PONGER_IMAGE=$PONGER_IMAGE_TAG
           kustomize edit set image READER_IMAGE=$READER_IMAGE_TAG
           kustomize edit set image WRITER_IMAGE=$WRITER_IMAGE_TAG
-          kustomize edit set image ROOT_IMAGE=$ROOTTI_IMAGE_TAG
+          kustomize edit set image ROOTTI_IMAGE=$ROOTTI_IMAGE_TAG
 
       - name: commit kustomization.yaml to GitHub
         uses: EndBug/add-and-commit@v9
