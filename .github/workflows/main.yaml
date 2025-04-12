@@ -12,7 +12,9 @@ env:
   READER:       project-todo-app
   WRITER:       project-todo-backend
   PONGER:       project-todo-wikipedia
+  ROOTTI:       project-todo-root
   BRANCH:       ${{ github.ref_name }}
+  
 
 jobs:
   build-publish-deploy:
@@ -47,6 +49,7 @@ jobs:
           echo "READER_IMAGE_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/$READER:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
           echo "WRITER_IMAGE_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/$WRITER:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
           echo "PONGER_IMAGE_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/$PONGER:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
+          echo "ROOTTI_IMAGE_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/$ROOTTI:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
 
       - name : 'Build and push reader'
         run: |
@@ -63,14 +66,20 @@ jobs:
           docker build --tag $PONGER_IMAGE_TAG pong
           docker push $PONGER_IMAGE_TAG
 
+      - name : 'Build and push root'
+        run: |
+          docker build --tag $ROOTTI_IMAGE_TAG root
+          docker push $ROOTTI_IMAGE_TAG
+
       - name: Set up Kustomize
         uses: imranismail/setup-kustomize@v2.1.0
 
       - name: Use right images
         run: |-
-           kustomize edit set image PONGER_IMAGE=$PONGER_IMAGE_TAG
-           kustomize edit set image READER_IMAGE=$READER_IMAGE_TAG
-           kustomize edit set image WRITER_IMAGE=$WRITER_IMAGE_TAG
+          kustomize edit set image PONGER_IMAGE=$PONGER_IMAGE_TAG
+          kustomize edit set image READER_IMAGE=$READER_IMAGE_TAG
+          kustomize edit set image WRITER_IMAGE=$WRITER_IMAGE_TAG
+          kustomize edit set image ROOT_IMAGE=$ROOTTI_IMAGE_TAG
 
       - name: commit kustomization.yaml to GitHub
         uses: EndBug/add-and-commit@v9

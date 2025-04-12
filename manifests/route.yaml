@@ -26,3 +26,12 @@ spec:
     backendRefs:
     - name: pingpong-svc
       port: 2344
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: log-app-root-svc
+      port: 2345
+
+
